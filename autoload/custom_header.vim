@@ -61,6 +61,7 @@ endfunction
 " ----------------------------------------------------------
 " insert header
 function! custom_header#insert_header()
+    let position = getpos(".")
     call s:set_format()
 
     let i = 0
@@ -116,13 +117,16 @@ function! custom_header#insert_header()
     " add ending always
     call append(i, b:comment_char . g:custom_header_end)
     let i += 1
+    call setpos(".", position)
 endfunction
 
 " ----------------------------------------------------------
 " update header
 function! custom_header#update_header()
+    let position = getpos(".")
     call s:set_format()
 
     let repl = b:field_modify . strftime(g:custom_header_tformat)
     execute ':1,10s/' . b:field_modify . '.*$/' . repl . '/g'
+    call setpos(".", position)
 endfunction
